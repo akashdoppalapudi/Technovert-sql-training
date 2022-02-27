@@ -16,6 +16,8 @@ mysql -u root -p "name of the database" < "path to the schema sql"
 
 ## Queries
 
+Queries are stored inside `queries.sql` and the resultant data is store in `results` directory in **csv** format.
+
 ### Basic 'Select' exercises
 
 1. Select firstname, lastname, title, age, salary for everyone in your employee table.
