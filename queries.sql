@@ -114,3 +114,61 @@ select avg(salary) from employee where age between 35 and 50;
 
 /* 30 */
 select count(*) from employee where title="Fresher";
+
+/* 31 */
+DELIMITER $$
+create function percentage_of_employees(num_of_emp int)		/* Creating a function to find percentage of employees */
+returns float
+reads sql data
+begin
+declare percentage float;
+declare total int;
+select count(*) into total from employee;
+set percentage = (num_of_emp / total) * 100;
+return percentage;
+end $$
+DELIMITER ;
+
+select percentage_of_employees(count(*)) as percentage_of_employees from employee where title="Programmer";
+
+/* 32 */
+select sum(salary) from employee where age>=40;
+
+/* 33 */
+select sum(salary) from employee where title="Fresher" or title="Programmer";
+
+/* 34 */
+DELIMITER $$
+create function mul_36(num int)		/* Function to multiply number by 36 (3 years) */
+returns int
+deterministic
+begin
+declare result int;
+set result = num * 36;
+return result;
+end $$
+DELIMITER ;
+
+select mul_36(sum(salary)) from employee where age>27 and title="Fresher";
+
+/* 35 */
+select first_name, last_name, age from employee 
+where age=(select max(age) from employee where salary<35000);
+
+/* 36 */
+select concat(first_name, " ", last_name) as name from employee 
+where age=(select min(age) from employee where title="General Manager") and title="General Manager";
+
+/* 37 */
+select concat(first_name, " ", last_name) as name from employee
+where age=(select min(age) from employee where title="Fresher" and salary<35000) and title="Fresher" and salary<35000;
+
+/* 38 */
+select first_name, age from employee where first_name in ("John", "Michael") and salary between 17000 and 26000;
+
+/* 39 */
+with employee_title as (select title, count(title) as no_of_employees from employee group by title)
+select * from employee_title order by no_of_employees asc;
+
+/* 40 */
+select title, avg(salary) as average_salary from employee group by title;
