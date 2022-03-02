@@ -22,7 +22,7 @@ from
 -- 4
 -- Select firstname and lastname as 'Name' for everyone. Use " " (space) to separate firstname and last.
 select 
-    concat(first_name, ' ', last_name) as Name
+    concat_ws(' ', first_name, last_name) as Name
 from
     employee;
 
