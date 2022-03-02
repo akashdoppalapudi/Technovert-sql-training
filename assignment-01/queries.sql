@@ -1,7 +1,7 @@
 -- 1
 -- Select firstname, lastname, title, age, salary for everyone in your employee table.
 select 
-    *
+    first_name, last_name, title, age, salary
 from
     employee;
 
