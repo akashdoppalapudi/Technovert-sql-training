@@ -236,7 +236,7 @@ where
 -- 28
 -- Select the average age of Programmers
 select 
-    avg(salary)
+    avg(age)
 from
     employee
 where
