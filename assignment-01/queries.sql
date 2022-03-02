@@ -337,7 +337,8 @@ select
 from
     employee
 where
-    first_name in ('John' , 'Michael')
+    (first_name like 'John%'
+        or first_name like 'Michael%')
         and salary between 17000 and 26000;
 
 -- 39
