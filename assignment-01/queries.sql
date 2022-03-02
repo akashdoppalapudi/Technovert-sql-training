@@ -361,7 +361,7 @@ select
 from
     employee
 where
-    title != 'Fresher';
+    title <> 'Fresher';
 
 -- 42
 -- What is the average age of employees of each unique title.
