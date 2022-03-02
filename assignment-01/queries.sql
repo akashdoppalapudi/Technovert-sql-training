@@ -304,43 +304,31 @@ select
 from
     employee
 where
-    age = (select 
-            max(age)
-        from
-            employee
-        where
-            salary < 35000);
+    salary < 35000
+order by age desc
+limit 1;
 
 -- 36
 -- Who is the youngest General Manager
 select 
-    concat(first_name, ' ', last_name) as name
+    concat_ws(' ', first_name, last_name) as name
 from
     employee
 where
-    age = (select 
-            min(age)
-        from
-            employee
-        where
-            title = 'General Manager')
-        and title = 'General Manager';
+    title = 'General Manager'
+order by age
+limit 1;
 
 -- 37
 -- Select the eldest fresher whose salary is less than 35000
 select 
-    concat(first_name, ' ', last_name) as name
+    concat_ws(' ', first_name, last_name) as name
 from
     employee
 where
-    age = (select 
-            min(age)
-        from
-            employee
-        where
-            title = 'Fresher' and salary < 35000)
-        and title = 'Fresher'
-        and salary < 35000;
+    title = 'Fresher' and salary < 35000
+order by age desc
+limit 1;
 
 -- 38
 -- Select firstname and age of everyone whose firstname starts with "John" or "Michael" and salary in the range 17000 and 26000
