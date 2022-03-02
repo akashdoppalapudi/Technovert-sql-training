@@ -1,175 +1,175 @@
 /* 1 */
-SELECT 
+select 
     *
-FROM
+from
     employee;
 
 /* 2 */
-SELECT 
+select 
     first_name, age, salary
-FROM
+from
     employee;
 
 /* 3 */
-SELECT 
-    first_name AS Name
-FROM
+select 
+    first_name as Name
+from
     employee;
 
 /* 4 */
-SELECT 
-    CONCAT(first_name, ' ', last_name) AS Name
-FROM
+select 
+    concat(first_name, ' ', last_name) as Name
+from
     employee;
 
 /* 5 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
+where
     salary > 38000;
 
 /* 6 */
-SELECT 
+select 
     first_name, last_name
-FROM
+from
     employee
-WHERE
+where
     age < 24;
 
 /* 7 */
-SELECT 
+select 
     first_name, last_name, salary
-FROM
+from
     employee
-WHERE
+where
     title = 'Programmer';
 
 /* 8 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
-    last_name LIKE '%o%';
+where
+    last_name like '%o%';
 
 /* 9 */
-SELECT 
+select 
     last_name
-FROM
+from
     employee
-WHERE
+where
     first_name = 'Kelly';
 
 /* 10 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
-    last_name LIKE '%Moore';
+where
+    last_name like '%Moore';
 
 /* 11 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
+where
     age >= 35;
 
 /* 12 */
-SELECT 
+select 
     first_name, last_name, age, salary
-FROM
+from
     employee
-WHERE
-    age > 24 AND age < 43;
+where
+    age > 24 and age < 43;
 
 /* 13 */
-SELECT 
+select 
     first_name, title, last_name
-FROM
+from
     employee
-WHERE
-    age BETWEEN 28 AND 62 AND salary > 31250;
+where
+    age between 28 and 62 and salary > 31250;
 
 /* 14 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
-    age <= 48 AND salary >= 21520;
+where
+    age <= 48 and salary >= 21520;
 
 /* 15 */
-SELECT 
+select 
     first_name, age
-FROM
+from
     employee
-WHERE
-    first_name LIKE 'John%'
-        AND salary BETWEEN 25000 AND 35000;
+where
+    first_name like 'John%'
+        and salary between 25000 and 35000;
 
 /* 16 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-ORDER BY age DESC;
+order by age desc;
 
 /* 17 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-ORDER BY age ASC;
+order by age asc;
 
 /* 18 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-ORDER BY salary DESC;
+order by salary desc;
 
 /* 19 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-ORDER BY salary ASC;
+order by salary asc;
 
 /* 20 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
+where
     age >= 17
-ORDER BY salary ASC;
+order by salary asc;
 
 /* 21 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-WHERE
+where
     age <= 34
-ORDER BY salary DESC;
+order by salary desc;
 
 /* 22 */
-SELECT 
+select 
     *
-FROM
+from
     employee
-ORDER BY LENGTH(first_name) ASC;
+order by length(first_name) asc;
 
 /* 23 */
-SELECT 
-    COUNT(*)
-FROM
+select 
+    count(*)
+from
     employee
-WHERE
+where
     age > 45;
 
 /* 24 */
@@ -195,61 +195,61 @@ return result;
 end $$
 DELIMITER ;
 
-SELECT 
+select 
     first_name,
     last_name,
     title,
-    ADD_FIVE(age) AS age,
-    SUBTRACT_250(salary) AS salary
-FROM
+    add_five(age) as age,
+    subtract_250(salary) as salary
+from
     employee;
 
 /* 25 */
-SELECT 
-    COUNT(*)
-FROM
+select 
+    count(*)
+from
     employee
-WHERE
-    last_name LIKE '%re'
-        OR last_name LIKE '%ri'
-        OR last_name LIKE '%ks';
+where
+    last_name like '%re'
+        or last_name like '%ri'
+        or last_name like '%ks';
 
 /* 26 */
-SELECT 
-    AVG(salary)
-FROM
+select 
+    avg(salary)
+from
     employee;
 
 /* 27 */
-SELECT 
-    AVG(salary)
-FROM
+select 
+    avg(salary)
+from
     employee
-WHERE
+where
     title = 'Fresher';
 
 /* 28 */
-SELECT 
-    AVG(salary)
-FROM
+select 
+    avg(salary)
+from
     employee
-WHERE
+where
     title = 'Programmer';
 
 /* 29 */
-SELECT 
-    AVG(salary)
-FROM
+select 
+    avg(salary)
+from
     employee
-WHERE
-    age BETWEEN 35 AND 50;
+where
+    age between 35 and 50;
 
 /* 30 */
-SELECT 
-    COUNT(*)
-FROM
+select 
+    count(*)
+from
     employee
-WHERE
+where
     title = 'Fresher';
 
 /* 31 */
@@ -266,29 +266,29 @@ return percentage;
 end $$
 DELIMITER ;
 
-SELECT 
-    PERCENTAGE_OF_EMPLOYEES(COUNT(*)) AS percentage_of_employees
-FROM
+select 
+    percentage_of_employees(count(*)) as percentage_of_employees
+from
     employee
-WHERE
+where
     title = 'Programmer';
 
 /* 32 */
-SELECT 
-    SUM(salary)
-FROM
+select 
+    sum(salary)
+from
     employee
-WHERE
+where
     age >= 40;
 
 /* 33 */
-SELECT 
-    SUM(salary)
-FROM
+select 
+    sum(salary)
+from
     employee
-WHERE
+where
     title = 'Fresher'
-        OR title = 'Programmer';
+        or title = 'Programmer';
 
 /* 34 */
 DELIMITER $$
@@ -302,144 +302,144 @@ return result;
 end $$
 DELIMITER ;
 
-SELECT 
-    MUL_36(SUM(salary))
-FROM
+select 
+    mul_36(sum(salary))
+from
     employee
-WHERE
-    age > 27 AND title = 'Fresher';
+where
+    age > 27 and title = 'Fresher';
 
 /* 35 */
-SELECT 
+select 
     first_name, last_name, age
-FROM
+from
     employee
-WHERE
-    age = (SELECT 
-            MAX(age)
-        FROM
+where
+    age = (select 
+            max(age)
+        from
             employee
-        WHERE
+        where
             salary < 35000);
 
 /* 36 */
-SELECT 
-    CONCAT(first_name, ' ', last_name) AS name
-FROM
+select 
+    concat(first_name, ' ', last_name) as name
+from
     employee
-WHERE
-    age = (SELECT 
-            MIN(age)
-        FROM
+where
+    age = (select 
+            min(age)
+        from
             employee
-        WHERE
+        where
             title = 'General Manager')
-        AND title = 'General Manager';
+        and title = 'General Manager';
 
 /* 37 */
-SELECT 
-    CONCAT(first_name, ' ', last_name) AS name
-FROM
+select 
+    concat(first_name, ' ', last_name) as name
+from
     employee
-WHERE
-    age = (SELECT 
-            MIN(age)
-        FROM
+where
+    age = (select 
+            min(age)
+        from
             employee
-        WHERE
-            title = 'Fresher' AND salary < 35000)
-        AND title = 'Fresher'
-        AND salary < 35000;
+        where
+            title = 'Fresher' and salary < 35000)
+        and title = 'Fresher'
+        and salary < 35000;
 
 /* 38 */
-SELECT 
+select 
     first_name, age
-FROM
+from
     employee
-WHERE
-    first_name IN ('John' , 'Michael')
-        AND salary BETWEEN 17000 AND 26000;
+where
+    first_name in ('John' , 'Michael')
+        and salary between 17000 and 26000;
 
 /* 39 */
 with employee_title as (select title, count(title) as no_of_employees from employee group by title)
 select * from employee_title order by no_of_employees asc;
 
 /* 40 */
-SELECT 
-    title, AVG(salary) AS average_salary
-FROM
+select 
+    title, avg(salary) as average_salary
+from
     employee
-GROUP BY title;
+group by title;
 
 /* 41 */
-SELECT 
-    AVG(salary)
-FROM
+select 
+    avg(salary)
+from
     employee
-WHERE
+where
     title != 'Fresher';
 
 /* 42 */
-SELECT 
-    title, AVG(age) AS average_age
-FROM
+select 
+    title, avg(age) as average_age
+from
     employee
-GROUP BY title;
+group by title;
 
 /* 43 */
 with emp_25_40 as (select * from employee where age between 25 and 40) 
 select title, count(title) as no_of_employees from emp_25_40 group by title;
 
 /* 44 */
-SELECT 
-    title, AVG(salary) AS average_salary
-FROM
+select 
+    title, avg(salary) as average_salary
+from
     employee
-GROUP BY title
-HAVING average_salary >= 25000;
+group by title
+having average_salary >= 25000;
 
 /* 45 */
-SELECT 
-    title, SUM(age) AS sum_age
-FROM
+select 
+    title, sum(age) as sum_age
+from
     employee
-GROUP BY title
-HAVING sum_age > 30;
+group by title
+having sum_age > 30;
 
 /* 46 */
-UPDATE employee 
-SET 
+update employee 
+set 
     last_name = 'Moore'
-WHERE
+where
     first_name = 'Lisa'
-        AND last_name = 'Moore';
+        and last_name = 'Moore';
 
 /* 47 */
-UPDATE employee 
-SET 
+update employee 
+set 
     age = age + 1,
     salary = salary + 5000
-WHERE
+where
     first_name = 'Ginger'
-        AND last_name = 'Finger';
+        and last_name = 'Finger';
 
 /* 48 */
-UPDATE employee 
-SET 
+update employee 
+set 
     title = 'Engineer'
-WHERE
+where
     title = 'Programmer';
 
 /* 49 */
-UPDATE employee 
-SET 
+update employee 
+set 
     salary = salary + 3500
-WHERE
+where
     salary < 30000;
 
 /* 50 */
-UPDATE employee 
-SET 
+update employee 
+set 
     salary = salary - (salary * 0.15)
-WHERE
+where
     salary > 35500;
