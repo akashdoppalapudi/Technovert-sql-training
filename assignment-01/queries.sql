@@ -401,7 +401,7 @@ set
     last_name = 'Moore'
 where
     first_name = 'Lisa'
-        and last_name = 'Moore';
+        and last_name = 'Ray';
 
 -- 47
 -- Ginger Finger's birthday is today, add 1 to his age and a bonus of 5000
