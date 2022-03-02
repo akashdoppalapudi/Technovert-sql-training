@@ -343,8 +343,12 @@ where
 
 -- 39
 -- How many employees are having each unique title. Select the title and display the number of employees present in ascending order
-with employee_title as (select title, count(title) as no_of_employees from employee group by title)
-select * from employee_title order by no_of_employees asc;
+select 
+    title, count(title) as no_of_employees
+from
+    employee
+group by title
+order by count(title) asc;
 
 -- 40
 -- What is the average salary of each unique title of the employees. Select the title and display the average salary of employees in each
@@ -373,8 +377,13 @@ group by title;
 
 -- 43
 -- In the age range of 25 to 40 get the number of employees under each unique title.
-with emp_25_40 as (select * from employee where age between 25 and 40) 
-select title, count(title) as no_of_employees from emp_25_40 group by title;
+select 
+    title, count(title) as no_of_employees
+from
+    employee
+where
+    age between 25 and 40
+group by title;
 
 -- 44
 -- Show the average salary of each unique title of employees only if the average salary is not less than 25000
