@@ -197,34 +197,12 @@ where
 
 -- 24
 -- Show the results by adding 5 to ages and removing 250 from salaries of all employees
-DELIMITER $$
-create function add_five (num int)		-- Creating a function for adding five
-returns int
-deterministic
-begin
-declare result int;
-set result = num + 5;
-return result;
-end $$
-DELIMITER ;
-
-DELIMITER $$
-create function subtract_250 (num int)		-- Creating a function for subtracting 250
-returns int
-deterministic
-begin
-declare result int;
-set result = num + 5;
-return result;
-end $$
-DELIMITER ;
-
 select 
     first_name,
     last_name,
     title,
-    add_five(age) as age,
-    subtract_250(salary) as salary
+    age + 5 as age,
+    salary - 250 as salary
 from
     employee;
 
@@ -284,25 +262,12 @@ where
 
 -- 31
 -- What percentage of programmers constitute your employees
-DELIMITER $$
-create function percentage_of_employees(num_of_emp int)		-- Creating a function to find percentage of employees
-returns float
-reads sql data
-begin
-declare percentage float;
-declare total int;
-select count(*) into total from employee;
-set percentage = (num_of_emp / total) * 100;
-return percentage;
-end $$
-DELIMITER ;
-
 select 
-    percentage_of_employees(count(*)) as percentage_of_employees
+    count(*) * 100 / (select count(*) from employee) as percentage_of_programmers
 from
     employee
 where
-    title = 'Programmer';
+    title = 'Engineer';
 
 -- 32
 -- What is the combined salary that you need to pay to the employees whose age is not less than 40
@@ -325,19 +290,8 @@ where
 
 -- 34
 -- What is the combined salary that you need to pay to all the Freshers whose age is greater than 27 for 3years
-DELIMITER $$
-create function mul_36(num int)		-- Function to multiply number by 36 (3 years)
-returns int
-deterministic
-begin
-declare result int;
-set result = num * 36;
-return result;
-end $$
-DELIMITER ;
-
 select 
-    mul_36(sum(salary))
+    sum(salary) * 36 as total_salary_3years
 from
     employee
 where
