@@ -201,8 +201,8 @@ select
     first_name,
     last_name,
     title,
-    age + 5 as age,
-    salary - 250 as salary
+    (age + 5) as age,
+    (salary - 250) as salary
 from
     employee;
 
@@ -263,11 +263,11 @@ where
 -- 31
 -- What percentage of programmers constitute your employees
 select 
-    count(*) * 100 / (select count(*) from employee) as percentage_of_programmers
+    (count(*) * 100 / (select count(*) from employee)) as percentage_of_programmers
 from
     employee
 where
-    title = 'Engineer';
+    title = 'Programmer';
 
 -- 32
 -- What is the combined salary that you need to pay to the employees whose age is not less than 40
@@ -291,7 +291,7 @@ where
 -- 34
 -- What is the combined salary that you need to pay to all the Freshers whose age is greater than 27 for 3years
 select 
-    sum(salary) * 36 as total_salary_3years
+    (sum(salary) * 36) as total_salary_3years
 from
     employee
 where
@@ -416,8 +416,8 @@ where
 -- Ginger Finger's birthday is today, add 1 to his age and a bonus of 5000
 update employee 
 set 
-    age = age + 1,
-    salary = salary + 5000
+    age = (age + 1),
+    salary = (salary + 5000)
 where
     first_name = 'Ginger'
         and last_name = 'Finger';
@@ -434,7 +434,7 @@ where
 -- Everyone whose making under 30000 are to receive a 3500 bonus.
 update employee 
 set 
-    salary = salary + 3500
+    salary = (salary + 3500)
 where
     salary < 30000;
 
@@ -442,6 +442,6 @@ where
 -- Everyone whose making over 35500 are to be deducted 15% of their salaries
 update employee 
 set 
-    salary = salary - (salary * 0.15)
+    salary = (salary - (salary * 0.15))
 where
     salary > 35500;
