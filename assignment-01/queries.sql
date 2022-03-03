@@ -306,7 +306,7 @@ from
 where
     salary < 35000
 order by age desc
-limit 1;
+limit 0,1;
 
 -- 36
 -- Who is the youngest General Manager
@@ -317,7 +317,7 @@ from
 where
     title = 'General Manager'
 order by age
-limit 1;
+limit 0,1;
 
 -- 37
 -- Select the eldest fresher whose salary is less than 35000
@@ -328,7 +328,7 @@ from
 where
     title = 'Fresher' and salary < 35000
 order by age desc
-limit 1;
+limit 0,1;
 
 -- 38
 -- Select firstname and age of everyone whose firstname starts with "John" or "Michael" and salary in the range 17000 and 26000
