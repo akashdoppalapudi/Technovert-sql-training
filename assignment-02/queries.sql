@@ -6,7 +6,7 @@ select
 from
     employee
         join
-    orders on employee.EmployeeID = orders.EmployeeID
+    orders ON employee.EmployeeID = orders.EmployeeID
 where
     OrderDate between '1996-08-15' and '1997-08-15'
 group by orders.EmployeeID;
@@ -18,7 +18,7 @@ select distinct
 from
     employee
         join
-    orders on employee.EmployeeID = orders.EmployeeID
+    orders ON employee.EmployeeID = orders.EmployeeID
 where
     orders.OrderDate < '1996-08-16';
     
@@ -39,7 +39,7 @@ select
 from
     orders
         left join
-    employee on employee.EmployeeID = orders.EmployeeID
+    employee ON employee.EmployeeID = orders.EmployeeID
 where
     OrderDate between '1997-01-13' and '1997-04-16'
         and employee.FirstName = 'Anne'
@@ -52,7 +52,7 @@ select
 from
     orders
         left join
-    employee on employee.EmployeeID = orders.EmployeeID
+    employee ON employee.EmployeeID = orders.EmployeeID
 where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King';
@@ -64,7 +64,7 @@ select
 from
     orders
         left join
-    employee on employee.EmployeeID = orders.EmployeeID
+    employee ON employee.EmployeeID = orders.EmployeeID
 where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King'
@@ -74,16 +74,16 @@ where
 /* I want to make a phone call to the employees to wish them on the occasion of Christmas who placed
 orders between 13th of January,1997 and 16th of April,1997. I want the EmployeeID, Employee Full Name,
 HomePhone Number. */
-select 
-    distinct(employee.EmployeeID),
-    concat(employee.FirstName,
-            ' ',
+select distinct
+    (employee.EmployeeID),
+    concat_ws(' ',
+            employee.FirstName,
             employee.LastName) as EmployeeFullName,
     employee.HomePhone
 from
     orders
         left join
-    employee on employee.EmployeeID = orders.EmployeeID
+    employee ON employee.EmployeeID = orders.EmployeeID
 where
     orders.OrderDate between '1997-01-13' and '1997-04-16';
     
@@ -108,7 +108,7 @@ select
 from
     orderdetails
         left join
-    products on orderdetails.ProductID = products.ProductID
+    products ON orderdetails.ProductID = products.ProductID
 group by orderdetails.ProductID
 order by number_of_orders
 limit 5;
@@ -127,11 +127,12 @@ end $$
 DELIMITER ;
 
 select 
-    sum(total_price(orderdetails.Quantity, orderdetails.UnitPrice)) as total_price
+    sum(total_price(orderdetails.Quantity,
+            orderdetails.UnitPrice)) as total_price
 from
     orderdetails
         join
-    orders on orders.OrderID = orderdetails.OrderID
+    orders ON orders.OrderID = orderdetails.OrderID
 where
     orders.EmployeeID = (select 
             EmployeeID
@@ -140,7 +141,7 @@ where
         where
             FirstName = 'Laura'
                 and LastName = 'Callahan')
-	and orders.OrderDate="1997-01-13";
+        and orders.OrderDate = '1997-01-13';
     
 -- 11
 /* How many number of unique employees placed orders for Gorgonzola Telino or Gnocchi di nonna Alice or
@@ -150,9 +151,9 @@ select
 from
     orders
         left join
-    orderdetails on orderdetails.OrderID = orders.OrderID
+    orderdetails ON orderdetails.OrderID = orders.OrderID
         inner join
-    products on products.ProductID = orderdetails.ProductID
+    products ON products.ProductID = orderdetails.ProductID
 where
     products.ProductName in ('Gorgonzola Telino' , 'Gnocchi di nonna Alice',
         'Raclette Courdavault',
@@ -162,15 +163,15 @@ where
 -- 12
 -- What is the full name of the employees who ordered Tofu between 13th of January,1997 and 30th of January,1997
 select distinct
-    concat(employee.FirstName,
-            ' ',
+    concat_ws(' ',
+            employee.FirstName,
             employee.LastName) as employee_name
 from
     orders
         join
-    employee on orders.EmployeeID = employee.EmployeeID
+    employee ON orders.EmployeeID = employee.EmployeeID
         join
-    orderdetails on orderdetails.OrderID = orders.OrderID
+    orderdetails ON orderdetails.OrderID = orders.OrderID
 where
     orderdetails.ProductID = (select 
             ProductID
@@ -185,8 +186,8 @@ where
 August. Get employeeID and full name as well */
 select distinct
     (employee.EmployeeID),
-    concat(employee.FirstName,
-            ' ',
+    concat_ws(' ',
+            employee.FirstName,
             employee.LastName) as employee_full_name,
     timestampdiff(day,
         employee.BirthDate,
@@ -200,7 +201,7 @@ select distinct
 from
     orders
         inner join
-    employee on employee.EmployeeID = orders.EmployeeID
+    employee ON employee.EmployeeID = orders.EmployeeID
 where
     month(orders.OrderDate) = 08;
     
@@ -212,7 +213,7 @@ select
 from
     orders
         join
-    shippers on shippers.ShipperID = orders.ShipperID
+    shippers ON shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID;
 
 -- 15
@@ -223,9 +224,9 @@ select
 from
     orders
         join
-    shippers on orders.ShipperID = shippers.ShipperID
+    shippers ON orders.ShipperID = shippers.ShipperID
         join
-    orderdetails on orderdetails.OrderID = orders.OrderID
+    orderdetails ON orderdetails.OrderID = orders.OrderID
 group by shippers.ShipperID;
 
 -- 16
@@ -236,7 +237,7 @@ select
 from
     orders
         join
-    shippers on shippers.ShipperID = orders.ShipperID
+    shippers ON shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID
 order by number_of_orders desc
 limit 1;
@@ -251,16 +252,18 @@ select
 from
     orders
         join
-    shippers on shippers.ShipperID = orders.ShipperID
-    where orders.OrderDate between "1996-08-10" and "1998-09-20"
-group by shippers.ShipperID 
-order by number_of_orders desc limit 1;
+    shippers ON shippers.ShipperID = orders.ShipperID
+where
+    orders.OrderDate between '1996-08-10' and '1998-09-20'
+group by shippers.ShipperID
+order by number_of_orders desc
+limit 1;
 
 -- 18
 -- Which employee didn't order any product 4th of April 1997
 select 
     EmployeeID,
-    concat(FirstName, ' ', LastName) as employee_name
+    concat_ws(' ', FirstName, LastName) as employee_name
 from
     employee
 where
@@ -276,7 +279,9 @@ where
 select 
     sum(orderdetails.Quantity) as number_of_products
 from
-    orders join orderdetails on orders.OrderID=orderdetails.OrderID
+    orders
+        join
+    orderdetails ON orders.OrderID = orderdetails.OrderID
 where
     orders.EmployeeID = (select 
             EmployeeID
@@ -293,9 +298,9 @@ select
 from
     orders
         join
-    employee on employee.EmployeeID = orders.EmployeeID
+    employee ON employee.EmployeeID = orders.EmployeeID
         join
-    shippers on shippers.ShipperID = orders.ShipperID
+    shippers ON shippers.ShipperID = orders.ShipperID
 where
     employee.FirstName = 'Michael'
         and employee.LastName = 'Suyama'
@@ -308,9 +313,9 @@ select
 from
     orderdetails
         join
-    products on orderdetails.ProductID = products.ProductID
+    products ON orderdetails.ProductID = products.ProductID
         join
-    suppliers on suppliers.SupplierID = products.SupplierID
+    suppliers ON suppliers.SupplierID = products.SupplierID
 where
     (suppliers.Country = 'UK'
         or suppliers.Country = 'Germany');
@@ -323,9 +328,9 @@ select
 from
     orderdetails
         join
-    products on orderdetails.ProductID = products.ProductID
+    products ON orderdetails.ProductID = products.ProductID
         join
-    orders on orders.OrderID = orderdetails.OrderID
+    orders ON orders.OrderID = orderdetails.OrderID
 where
     products.SupplierID = (select 
             SupplierID
@@ -359,7 +364,7 @@ where
 -- 24
 -- Which of the employees did not place any order for the products supplied by Ma Maison in the month of May
 select 
-    concat(FirstName, ' ', LastName) as EmployeeName
+    concat_ws(' ', FirstName, LastName) as EmployeeName
 from
     employee
 where
@@ -368,9 +373,9 @@ where
         from
             orders
                 join
-            orderdetails on orders.OrderID = orderdetails.OrderID
+            orderdetails ON orders.OrderID = orderdetails.OrderID
                 join
-            products on products.ProductID = orderdetails.ProductID
+            products ON products.ProductID = orderdetails.ProductID
         where
             month(orders.OrderDate) = 05
                 and products.SupplierID = (select 
@@ -389,7 +394,7 @@ select
 from
     orders
         join
-    shippers on shippers.ShipperID = orders.ShipperID
+    shippers ON shippers.ShipperID = orders.ShipperID
 where
     orders.OrderDate between '1997-09-01' and '1997-10-31'
 group by shippers.ShipperID
@@ -408,24 +413,22 @@ where
         from
             orders
                 join
-            orderdetails on orders.OrderID = orderdetails.OrderID
+            orderdetails ON orders.OrderID = orderdetails.OrderID
                 join
-            products on products.ProductID = orderdetails.ProductID
+            products ON products.ProductID = orderdetails.ProductID
         where
             orders.OrderDate between '1997-08-01' and '1997-08-31');
             
 -- 27
 -- What are the products that weren't ordered by each of the employees. List each employee and the products that he didn't order.
 
--- 28
--- Who is busiest shipper in the months of April, May and June during the year 1996 and 1997
 select 
     shippers.CompanyName,
     count(orders.ShipperID) as number_of_orders
 from
     orders
         join
-    shippers on orders.ShipperID = shippers.ShipperID
+    shippers ON orders.ShipperID = shippers.ShipperID
 where
     (orders.OrderDate between '1996-04-01' and '1996-04-30')
         or (orders.OrderDate between '1996-05-01' and '1996-05-31')
@@ -485,7 +488,7 @@ products, number of days took to ship and shipper company name. */
 with order_products as (
 select
 	orders.OrderID,
-    concat(employee.FirstName, " ", employee.LastName) as EmployeeName,
+    concat_ws(' ',employee.FirstName, employee.LastName) as EmployeeName,
     count(orderdetails.OrderID) as number_of_products,
     timestampdiff(day,
         OrderDate,
@@ -510,7 +513,7 @@ full name, number of products, number of days taken to ship the product and ship
 with order_products as (
 select
 	orders.OrderID,
-    concat(employee.FirstName, " ", employee.LastName) as EmployeeName,
+    concat_ws(' ',employee.FirstName, employee.LastName) as EmployeeName,
     count(orderdetails.OrderID) as number_of_products,
     timestampdiff(day,
         OrderDate,
