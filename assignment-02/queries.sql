@@ -1,5 +1,5 @@
-/* JOINS */
-/* 1 */
+-- JOINS
+-- 1
 select 
     employee.FirstName, employee.LastName
 from
@@ -10,7 +10,7 @@ where
     OrderDate between '1996-08-15' and '1997-08-15'
 group by orders.EmployeeID;
 
-/* 2 */
+-- 2
 select distinct
     (employee.EmployeeID)
 from
@@ -20,7 +20,7 @@ from
 where
     orders.OrderDate < '1996-08-16';
     
-/* 3 */
+-- 3
 select 
     count(*)
 from
@@ -28,7 +28,7 @@ from
 where
     OrderDate between '1997-01-13' and '1997-04-16';
 
-/* 4 */
+-- 4
 select 
     count(*)
 from
@@ -40,7 +40,7 @@ where
         and employee.FirstName = 'Anne'
         and employee.LastName = 'Dodsworth';
                 
-/* 5 */
+-- 5
 select 
     count(*)
 from
@@ -51,7 +51,7 @@ where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King';
         
-/* 6 */
+-- 6
 select 
     count(*)
 from
@@ -63,7 +63,7 @@ where
         and employee.LastName = 'King'
         and orders.OrderDate between '1996-08-15' and '1997-08-15';
         
-/* 7 */
+-- 7
 select 
     distinct(employee.EmployeeID),
     concat(employee.FirstName,
@@ -77,7 +77,7 @@ from
 where
     orders.OrderDate between '1997-01-13' and '1997-04-16';
     
-/* 8 */
+-- 8
 with product_orders as (
 select 
     orderdetails.ProductID, products.ProductName, count(orderdetails.ProductID) as number_of_orders
@@ -88,7 +88,7 @@ from
 select * from product_orders 
 where number_of_orders=(select max(number_of_orders) from product_orders);
 
-/* 9 */
+-- 9
 select 
     orderdetails.ProductID,
     products.ProductName,
@@ -101,9 +101,9 @@ group by orderdetails.ProductID
 order by number_of_orders
 limit 5;
 
-/* 10 */
+-- 10
 DELIMITER $$
-create function total_price(quantity int, unit_price decimal)		/* Function to find total price for all products */
+create function total_price(quantity int, unit_price decimal)		-- Function to find total price for all products
 returns decimal
 deterministic
 begin
@@ -129,7 +129,7 @@ where
                 and LastName = 'Callahan')
 	and orders.OrderDate="1997-01-13";
     
-/* 11 */
+-- 11
 select 
     count(distinct orders.EmployeeID) as number_of_employees
 from
@@ -144,7 +144,7 @@ where
         'Camembert Pierrot')
         and orders.OrderDate between '1997-01-01' and '1997-01-31';
         
-/* 12 */
+-- 12
 select distinct
     concat(employee.FirstName,
             ' ',
@@ -164,7 +164,7 @@ where
             ProductName = 'Tofu')
         and orders.OrderDate between '1997-01-13' and '1997-01-30';
             
-/* 13 */
+-- 13
 select distinct
     (employee.EmployeeID),
     concat(employee.FirstName,
@@ -186,7 +186,7 @@ from
 where
     month(orders.OrderDate) = 08;
     
-/* 14 */
+-- 14
 select 
     shippers.CompanyName,
     count(shippers.ShipperID) as number_of_orders
@@ -196,7 +196,7 @@ from
     shippers on shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID;
 
-/* 15 */
+-- 15
 select 
     shippers.CompanyName,
     sum(orderdetails.Quantity) as number_of_products
@@ -208,7 +208,7 @@ from
     orderdetails on orderdetails.OrderID = orders.OrderID
 group by shippers.ShipperID;
 
-/* 16 */
+-- 16
 select 
     shippers.ShipperID,
     count(shippers.ShipperID) as number_of_orders
@@ -220,7 +220,7 @@ group by shippers.ShipperID
 order by number_of_orders desc
 limit 1;
 
-/* 17 */
+-- 17
 select 
     shippers.ShipperID,
     shippers.CompanyName,
@@ -233,7 +233,7 @@ from
 group by shippers.ShipperID 
 order by number_of_orders desc limit 1;
 
-/* 18 */
+-- 18
 select 
     EmployeeID,
     concat(FirstName, ' ', LastName) as employee_name
@@ -247,7 +247,7 @@ where
         where
             OrderDate = '1997-04-04');
 
-/* 19 */
+-- 19
 select 
     sum(orderdetails.Quantity) as number_of_products
 from
@@ -261,7 +261,7 @@ where
             FirstName = 'Steven'
                 and LastName = 'Buchanan');
                 
-/* 20 */
+-- 20
 select 
     count(*) as number_of_orders
 from
@@ -275,7 +275,7 @@ where
         and employee.LastName = 'Suyama'
         and shippers.CompanyName = 'Federal Shipping';
         
-/* 21 */
+-- 21
 select 
     count(distinct OrderID) as number_of_orders
 from
@@ -288,7 +288,7 @@ where
     (suppliers.Country = 'UK'
         or suppliers.Country = 'Germany');
         
-/* 22 */
+-- 22
 select 
     sum(total_price(orderdetails.Quantity,
             orderdetails.UnitPrice)) as total_amount
@@ -307,7 +307,7 @@ where
             CompanyName = 'Exotic Liquids')
         and orders.OrderDate between '1997-01-01' and '1997-01-31';
         
-/* 23 */
+-- 23
 with recursive cte (days) as (
 select 1
 union all
@@ -327,7 +327,7 @@ where
     orders.OrderDate between '1997-01-01' and '1997-01-31'
     and products.SupplierID=(select SupplierID from suppliers where CompanyName="Tokyo Traders"));
     
-/* 24 */
+-- 24
 select 
     concat(FirstName, ' ', LastName) as EmployeeName
 from
@@ -350,7 +350,7 @@ where
                 where
                     CompanyName = 'Ma Maison'));
                     
-/* 25 */
+-- 25
 select 
     shippers.ShipperID,
     shippers.CompanyName,
@@ -365,7 +365,7 @@ group by shippers.ShipperID
 order by number_of_orders asc
 limit 1;
 
-/* 26 */
+-- 26
 select 
     ProductID, ProductName
 from
@@ -382,9 +382,9 @@ where
         where
             orders.OrderDate between '1997-08-01' and '1997-08-31');
             
-/* 27 */
+-- 27
 
-/* 28 */
+-- 28
 select 
     shippers.CompanyName,
     count(orders.ShipperID) as number_of_orders
@@ -403,7 +403,7 @@ group by shippers.ShipperID
 order by number_of_orders desc
 limit 1;
 
-/* 29 */
+-- 29
 with country_products as (
 select 
     suppliers.Country, count(suppliers.Country) as number_of_products
@@ -418,7 +418,7 @@ from
     where year(OrderDate)=1997 group by suppliers.Country)
     select Country from country_products where number_of_products=(select max(number_of_products) from country_products);
     
-/* 30 */
+-- 30
 select 
     avg(timestampdiff(day,
         OrderDate,
@@ -426,7 +426,7 @@ select
 from
     orders;
     
-/* 31 */
+-- 31
 with shipper_time as (
 select 
 	shippers.CompanyName,
@@ -442,7 +442,7 @@ group by CompanyName order by Count(companyName)
 desc 
 limit 1;
 
-/* 32 */
+-- 32
 with order_products as (
 select
 	orders.OrderID,
@@ -463,8 +463,8 @@ from
     group by orders.OrderID)
 select * from order_products where days_to_deliver=(select min(days_to_deliver) from order_products);
 
-/* UNIONS */
-/* 1 */
+-- UNIONS
+-- 1
 with order_products as (
 select
 	orders.OrderID,
@@ -487,7 +487,7 @@ select * from order_products where days_to_deliver=(select min(days_to_deliver) 
 union
 select * from order_products where days_to_deliver=(select max(days_to_deliver) from order_products);
 
-/* 2 */
+-- 2
 with product_prices as (
 select distinct
     orderdetails.ProductID,
@@ -505,8 +505,8 @@ select 1 as id, ProductID, ProductName, UnitPrice from product_prices where Unit
 union
 select 2 as id, ProductID, ProductName, UnitPrice from product_prices where UnitPrice=(select max(UnitPrice) from product_prices);
 
-/* CASE */
-/* 1 */
+-- CASE
+-- 1
 select distinct
     ShipperID,
     case
