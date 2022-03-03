@@ -14,7 +14,7 @@ group by orders.EmployeeID;
 -- 2
 -- Get the distinct EmployeeIDs who placed orders before 16th October,1996
 select distinct
-    (employee.EmployeeID)
+    employee.EmployeeID
 from
     employee
         join
@@ -115,20 +115,8 @@ limit 5;
 
 -- 10
 -- What is the total price that is to be paid by Laura Callahan for the order placed on 13th of January,1997
-DELIMITER $$
-create function total_price(quantity int, unit_price decimal)		-- Function to find total price for all products
-returns decimal
-deterministic
-begin
-declare total_price decimal;
-set total_price = quantity * unit_price;
-return total_price;
-end $$
-DELIMITER ;
-
 select 
-    sum(total_price(orderdetails.Quantity,
-            orderdetails.UnitPrice)) as total_price
+    sum((orderdetails.Quantity * orderdetails.UnitPrice)) as total_price
 from
     orderdetails
         join
