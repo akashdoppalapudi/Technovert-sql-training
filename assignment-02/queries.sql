@@ -150,7 +150,8 @@ where
     products.ProductName in ('Gorgonzola Telino' , 'Gnocchi di nonna Alice',
         'Raclette Courdavault',
         'Camembert Pierrot')
-        and orders.OrderDate between date('1997-01-01') and date('1997-01-31');
+        and year(orders.OrderDate) = 1997
+        and month(orders.OrderDate) = 01;
         
 -- 12
 -- What is the full name of the employees who ordered Tofu between 13th of January,1997 and 30th of January,1997
