@@ -4,9 +4,7 @@
 select distinct
     employee.FirstName, employee.LastName
 from
-    employee
-        join
-    orders ON employee.EmployeeID = orders.EmployeeID
+    employee join orders ON employee.EmployeeID = orders.EmployeeID
 where
     OrderDate between date('1996-08-15') and date('1997-08-15');
 
@@ -15,9 +13,7 @@ where
 select distinct
     employee.EmployeeID
 from
-    employee
-        join
-    orders ON employee.EmployeeID = orders.EmployeeID
+    employee join orders ON employee.EmployeeID = orders.EmployeeID
 where
     orders.OrderDate < date('1996-08-16');
     
@@ -26,9 +22,7 @@ where
 select 
     sum(orderdetails.Quantity) as number_of_products
 from
-    orders
-        join
-    orderdetails ON orders.OrderID = orderdetails.OrderID
+    orders join orderdetails ON orders.OrderID = orderdetails.OrderID
 where
     orders.OrderDate between date('1997-01-13') and date('1997-04-16');
 
@@ -38,11 +32,8 @@ January,1997 and 16th of April,1997 */
 select 
     sum(orderdetails.Quantity)
 from
-    orders
-        inner join
-    employee ON employee.EmployeeID = orders.EmployeeID
-        join
-    orderdetails ON orders.OrderID = orderdetails.OrderID
+    orders inner join employee ON employee.EmployeeID = orders.EmployeeID
+        join orderdetails ON orders.OrderID = orderdetails.OrderID
 where
     OrderDate between date('1997-01-13') and date('1997-04-16')
         and employee.FirstName = 'Anne'
@@ -53,9 +44,7 @@ where
 select 
     count(*)
 from
-    orders
-        inner join
-    employee ON employee.EmployeeID = orders.EmployeeID
+    orders inner join employee ON employee.EmployeeID = orders.EmployeeID
 where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King';
@@ -65,11 +54,8 @@ where
 select 
     sum(orderdetails.Quantity)
 from
-    orders
-        inner join
-    employee ON employee.EmployeeID = orders.EmployeeID
-        join
-    orderdetails ON orders.OrderID = orderdetails.OrderID
+    orders inner join employee ON employee.EmployeeID = orders.EmployeeID
+        join orderdetails ON orders.OrderID = orderdetails.OrderID
 where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King'
@@ -86,9 +72,7 @@ select distinct
             employee.LastName) as EmployeeFullName,
     employee.HomePhone
 from
-    orders
-        inner join
-    employee ON employee.EmployeeID = orders.EmployeeID
+    orders inner join employee ON employee.EmployeeID = orders.EmployeeID
 where
     orders.OrderDate between date('1997-01-13') and date('1997-04-16');
     
@@ -99,9 +83,7 @@ select
     products.ProductName,
     count(orderdetails.ProductID) as number_of_orders
 from
-    orderdetails
-        inner join
-    products ON orderdetails.ProductID = products.ProductID
+    orderdetails inner join products ON orderdetails.ProductID = products.ProductID
 group by orderdetails.ProductID
 order by number_of_orders desc
 limit 0 , 1;
@@ -113,9 +95,7 @@ select
     products.ProductName,
     count(orderdetails.ProductID) as number_of_orders
 from
-    orderdetails
-        inner join
-    products ON orderdetails.ProductID = products.ProductID
+    orderdetails inner join products ON orderdetails.ProductID = products.ProductID
 group by orderdetails.ProductID
 order by number_of_orders
 limit 0,5;
@@ -125,11 +105,8 @@ limit 0,5;
 select 
     sum((orderdetails.Quantity * orderdetails.UnitPrice)) as total_price
 from
-    orderdetails
-        join
-    orders ON orders.OrderID = orderdetails.OrderID
-        join
-    employee ON orders.EmployeeID = employee.EmployeeID
+    orderdetails join orders ON orders.OrderID = orderdetails.OrderID
+        join employee ON orders.EmployeeID = employee.EmployeeID
 where
     employee.FirstName = 'Laura'
         and employee.LastName = 'Callahan'
@@ -142,10 +119,8 @@ select
     count(distinct orders.EmployeeID) as number_of_employees
 from
     orders
-        inner join
-    orderdetails ON orderdetails.OrderID = orders.OrderID
-        inner join
-    products ON products.ProductID = orderdetails.ProductID
+        inner join orderdetails ON orderdetails.OrderID = orders.OrderID
+        inner join products ON products.ProductID = orderdetails.ProductID
 where
     products.ProductName in ('Gorgonzola Telino' , 'Gnocchi di nonna Alice',
         'Raclette Courdavault',
@@ -160,13 +135,9 @@ select distinct
             employee.FirstName,
             employee.LastName) as employee_name
 from
-    orderdetails
-        join
-    orders ON orderdetails.OrderID = orders.OrderID
-        join
-    products ON orderdetails.ProductID = products.ProductID
-        join
-    employee ON orders.EmployeeID = employee.EmployeeID
+    orderdetails join orders ON orderdetails.OrderID = orders.OrderID
+        join products ON orderdetails.ProductID = products.ProductID
+        join employee ON orders.EmployeeID = employee.EmployeeID
 where
     products.ProductName = 'Tofu'
         and orders.OrderDate between date('1997-01-13') and date('1997-01-30');
@@ -189,9 +160,7 @@ select distinct
         employee.BirthDate,
         current_date) as age_in_years
 from
-    orders
-        inner join
-    employee ON employee.EmployeeID = orders.EmployeeID
+    orders inner join employee ON employee.EmployeeID = orders.EmployeeID
 where
     month(orders.OrderDate) = 08;
     
@@ -201,9 +170,7 @@ select
     shippers.CompanyName,
     count(shippers.ShipperID) as number_of_orders
 from
-    shippers
-        join
-    orders ON shippers.ShipperID = orders.ShipperID
+    shippers join orders ON shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID;
 
 -- 15
@@ -212,11 +179,8 @@ select
     shippers.CompanyName,
     sum(orderdetails.Quantity) as number_of_products
 from
-    shippers
-        join
-    orders ON orders.ShipperID = shippers.ShipperID
-        join
-    orderdetails ON orderdetails.OrderID = orders.OrderID
+    shippers join orders ON orders.ShipperID = shippers.ShipperID
+        join orderdetails ON orderdetails.OrderID = orders.OrderID
 group by shippers.ShipperID;
 
 -- 16
@@ -225,9 +189,7 @@ select
     shippers.ShipperID,
     count(shippers.ShipperID) as number_of_orders
 from
-    shippers
-        join
-    orders ON shippers.ShipperID = orders.ShipperID
+    shippers join orders ON shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID	
 order by number_of_orders desc
 limit 0,1;
@@ -240,9 +202,7 @@ select
     shippers.CompanyName,
     count(shippers.ShipperID) as number_of_orders
 from
-    shippers
-        join
-    orders ON shippers.ShipperID = orders.ShipperID
+    shippers join orders ON shippers.ShipperID = orders.ShipperID
 where
     orders.OrderDate between date('1996-08-10') and date('1998-09-20')
 group by shippers.ShipperID
@@ -256,9 +216,7 @@ select
             employee.FirstName,
             employee.LastName) as employee_name
 from
-    employee
-        left join
-    orders ON orders.EmployeeID = employee.EmployeeID
+    employee left join orders ON orders.EmployeeID = employee.EmployeeID
         and orders.OrderDate = '1997-04-04'
 where
     orders.OrderDate is null;
@@ -268,11 +226,8 @@ where
 select 
     sum(orderdetails.Quantity) as number_of_products
 from
-    orderdetails
-        join
-    orders ON orders.OrderID = orderdetails.OrderID
-        join
-    employee ON orders.EmployeeID = employee.EmployeeID
+    orderdetails join orders ON orders.OrderID = orderdetails.OrderID
+        join employee ON orders.EmployeeID = employee.EmployeeID
 where
     employee.FirstName = 'Steven'
         and employee.LastName = 'Buchanan';
@@ -282,11 +237,8 @@ where
 select 
     count(*) as number_of_orders
 from
-    orders
-        join
-    employee ON employee.EmployeeID = orders.EmployeeID
-        join
-    shippers ON shippers.ShipperID = orders.ShipperID
+    orders join employee ON employee.EmployeeID = orders.EmployeeID
+        join shippers ON shippers.ShipperID = orders.ShipperID
 where
     employee.FirstName = 'Michael'
         and employee.LastName = 'Suyama'
@@ -297,11 +249,8 @@ where
 select 
     count(distinct OrderID) as number_of_orders
 from
-    orderdetails
-        join
-    products ON orderdetails.ProductID = products.ProductID
-        join
-    suppliers ON suppliers.SupplierID = products.SupplierID
+    orderdetails join products ON orderdetails.ProductID = products.ProductID
+        join suppliers ON suppliers.SupplierID = products.SupplierID
 where
     (suppliers.Country = 'UK'
         or suppliers.Country = 'Germany');
@@ -312,11 +261,8 @@ select
     sum(total_price(orderdetails.Quantity,
             orderdetails.UnitPrice)) as total_amount
 from
-    orderdetails
-        join
-    products ON orderdetails.ProductID = products.ProductID
-        join
-    orders ON orders.OrderID = orderdetails.OrderID
+    orderdetails join products ON orderdetails.ProductID = products.ProductID
+        join orders ON orders.OrderID = orderdetails.OrderID
 where
     products.SupplierID = (select 
             SupplierID
@@ -338,11 +284,8 @@ where days<31
 select days as days_without_orders from cte where days not in (select 
     day(orders.OrderDate)
 from
-    orders
-        join
-    orderdetails on orderdetails.OrderID = orders.OrderID
-        join
-    products on products.ProductID = orderdetails.ProductID
+    orders join orderdetails on orderdetails.OrderID = orders.OrderID
+        join products on products.ProductID = orderdetails.ProductID
 where
     orders.OrderDate between date('1997-01-01') and date('1997-01-31')
     and products.SupplierID=(select SupplierID from suppliers where CompanyName="Tokyo Traders"));
@@ -357,11 +300,8 @@ where
     EmployeeID not in (select distinct
             EmployeeID
         from
-            orders
-                join
-            orderdetails ON orders.OrderID = orderdetails.OrderID
-                join
-            products ON products.ProductID = orderdetails.ProductID
+            orders join orderdetails ON orders.OrderID = orderdetails.OrderID
+                join products ON products.ProductID = orderdetails.ProductID
         where
             month(orders.OrderDate) = 05
                 and products.SupplierID = (select 
@@ -378,9 +318,7 @@ select
     shippers.CompanyName,
     count(orders.ShipperID) as number_of_orders
 from
-    orders
-        join
-    shippers ON shippers.ShipperID = orders.ShipperID
+    orders join shippers ON shippers.ShipperID = orders.ShipperID
 where
     orders.OrderDate between date('1997-09-01') and date('1997-10-31')
 group by shippers.ShipperID
@@ -397,11 +335,8 @@ where
     ProductID not in (select distinct
             orderdetails.ProductID
         from
-            orders
-                join
-            orderdetails ON orders.OrderID = orderdetails.OrderID
-                join
-            products ON products.ProductID = orderdetails.ProductID
+            orders join orderdetails ON orders.OrderID = orderdetails.OrderID
+                join products ON products.ProductID = orderdetails.ProductID
         where
             orders.OrderDate between date('1997-08-01') and date('1997-08-31'));
             
@@ -412,9 +347,7 @@ select
     shippers.CompanyName,
     count(orders.ShipperID) as number_of_orders
 from
-    orders
-        join
-    shippers ON orders.ShipperID = shippers.ShipperID
+    orders join shippers ON orders.ShipperID = shippers.ShipperID
 where
     (orders.OrderDate between date('1996-04-01') and date('1996-04-30'))
         or (orders.OrderDate between date('1996-05-01') and date('1996-05-31'))
@@ -432,13 +365,9 @@ with country_products as (
 select 
     suppliers.Country, count(suppliers.Country) as number_of_products
 from
-    orders
-        join
-    orderdetails on orders.OrderID = orderdetails.OrderID
-        join
-    products on products.ProductID = orderdetails.ProductID
-        join
-    suppliers on suppliers.SupplierID = products.SupplierID
+    orders join  orderdetails on orders.OrderID = orderdetails.OrderID
+        join products on products.ProductID = orderdetails.ProductID
+        join suppliers on suppliers.SupplierID = products.SupplierID
     where year(OrderDate)=1997 group by suppliers.Country)
     select Country from country_products where number_of_products=(select max(number_of_products) from country_products);
     
@@ -481,13 +410,9 @@ select
         ShippedDate) as days_to_deliver,
 	shippers.CompanyName
 from
-    orders
-        join
-    employee on orders.EmployeeID = employee.EmployeeID
-        join
-    orderdetails on orderdetails.OrderID = orders.OrderID
-        join
-    shippers on shippers.ShipperID = orders.ShipperID
+    orders join employee on orders.EmployeeID = employee.EmployeeID
+        join orderdetails on orderdetails.OrderID = orders.OrderID
+        join shippers on shippers.ShipperID = orders.ShipperID
     group by orders.OrderID)
 select * from order_products where days_to_deliver=(select min(days_to_deliver) from order_products);
 
@@ -506,13 +431,9 @@ select
         ShippedDate) as days_to_deliver,
 	shippers.CompanyName
 from
-    orders
-        join
-    employee on orders.EmployeeID = employee.EmployeeID
-        join
-    orderdetails on orderdetails.OrderID = orders.OrderID
-        join
-    shippers on shippers.ShipperID = orders.ShipperID
+    orders join employee on orders.EmployeeID = employee.EmployeeID
+        join orderdetails on orderdetails.OrderID = orders.OrderID
+        join shippers on shippers.ShipperID = orders.ShipperID
     group by orders.OrderID)
 select * from order_products where days_to_deliver=(select min(days_to_deliver) from order_products)
 union
@@ -527,11 +448,8 @@ select distinct
     products.ProductName,
     products.UnitPrice
 from
-    orders
-        join
-    orderdetails on orders.OrderID = orderdetails.OrderID
-        join
-    products on orderdetails.ProductID = products.ProductID
+    orders join orderdetails on orders.OrderID = orderdetails.OrderID
+        join products on orderdetails.ProductID = products.ProductID
 where
     orders.OrderDate between date('1997-10-8') and date('1997-10-14'))
 select 1 as id, ProductID, ProductName, UnitPrice from product_prices where UnitPrice=(select min(UnitPrice) from product_prices)
