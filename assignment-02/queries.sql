@@ -1,15 +1,14 @@
 -- JOINS
 -- 1
 -- Get the firstname and lastname of the employees who placed orders between 15th August,1996 and 15th August,1997
-select 
+select distinct
     employee.FirstName, employee.LastName
 from
     employee
         join
     orders ON employee.EmployeeID = orders.EmployeeID
 where
-    OrderDate between '1996-08-15' and '1997-08-15'
-group by orders.EmployeeID;
+    OrderDate between '1996-08-15' and '1997-08-15';
 
 -- 2
 -- Get the distinct EmployeeIDs who placed orders before 16th October,1996
@@ -25,11 +24,12 @@ where
 -- 3
 -- How many products were ordered in total by all employees between 13th of January,1997 and 16th of April,1997.
 select 
-    count(*)
+    sum(orderdetails.Quantity) as number_of_products
 from
     orders
-where
-    OrderDate between '1997-01-13' and '1997-04-16';
+        join
+    orderdetails ON orders.OrderID = orderdetails.OrderID
+    where orders.OrderDate between date("1997-01-13") and date("1997-04-16");
 
 -- 4
 /* What is the total quantity of products for which Anne Dodsworth placed orders between 13th of
