@@ -336,18 +336,16 @@ where
 -- 27
 -- What are the products that weren't ordered by each of the employees. List each employee and the products that he didn't order.
 
+-- 28
+-- Who is busiest shipper in the months of April, May and June during the year 1996 and 1997
 select 
     shippers.CompanyName,
     count(orders.ShipperID) as number_of_orders
 from
     orders join shippers ON orders.ShipperID = shippers.ShipperID
 where
-    (orders.OrderDate between date('1996-04-01') and date('1996-04-30'))
-        or (orders.OrderDate between date('1996-05-01') and date('1996-05-31'))
-        or (orders.OrderDate between date('1996-06-01') and date('1996-06-30'))
-        or (orders.OrderDate between date('1997-04-01') and date('1997-04-30'))
-        or (orders.OrderDate between date('1997-05-01') and date('1997-05-31'))
-        or (orders.OrderDate between date('1997-06-01') and date('1997-06-30'))
+    (month(orders.OrderDate)=04 or month(orders.OrderDate)=05 or month(orders.OrderDate)=06)
+    and (year(orders.OrderDate)=1996 or year(orders.OrderDate)=1997)
 group by shippers.ShipperID
 order by number_of_orders desc
 limit 1;
