@@ -128,14 +128,11 @@ from
     orderdetails
         join
     orders ON orders.OrderID = orderdetails.OrderID
+        join
+    employee ON orders.EmployeeID = employee.EmployeeID
 where
-    orders.EmployeeID = (select 
-            EmployeeID
-        from
-            employee
-        where
-            FirstName = 'Laura'
-                and LastName = 'Callahan')
+    employee.FirstName = 'Laura'
+        and employee.LastName = 'Callahan'
         and orders.OrderDate = date('1997-01-13');
     
 -- 11
