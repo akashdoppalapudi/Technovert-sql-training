@@ -91,15 +91,13 @@ limit 0 , 1;
 -- 9
 -- Which are the least shipped products. List only the top 5 from your list.
 select 
-    orderdetails.ProductID,
-    products.ProductName,
-    count(orderdetails.ProductID) as number_of_orders
+    products.ProductName
 from
-    orderdetails inner join products ON orderdetails.ProductID = products.ProductID
-group by orderdetails.ProductID
-order by number_of_orders
-limit 0,5;
-
+    products inner join orderdetails ON orderdetails.ProductID = products.ProductID
+    group by products.ProductID
+    order by (count(orderdetails.ProductID)*orderdetails.Quantity) asc
+    limit 0,5;
+    
 -- 10
 -- What is the total price that is to be paid by Laura Callahan for the order placed on 13th of January,1997
 select 
