@@ -252,17 +252,16 @@ limit 0,1;
 -- 18
 -- Which employee didn't order any product 4th of April 1997
 select 
-    EmployeeID,
-    concat_ws(' ', FirstName, LastName) as employee_name
+    concat_ws(' ',
+            employee.FirstName,
+            employee.LastName) as employee_name
 from
     employee
+        left join
+    orders ON orders.EmployeeID = employee.EmployeeID
+        and orders.OrderDate = '1997-04-04'
 where
-    EmployeeID not in (select 
-            EmployeeID
-        from
-            orders
-        where
-            OrderDate = date('1997-04-04'));
+    orders.OrderDate is null;
 
 -- 19
 --  How many products where shipped to Steven Buchanan
