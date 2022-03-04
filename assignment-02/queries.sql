@@ -160,18 +160,15 @@ select distinct
             employee.FirstName,
             employee.LastName) as employee_name
 from
-    orders
+    orderdetails
+        join
+    orders ON orderdetails.OrderID = orders.OrderID
+        join
+    products ON orderdetails.ProductID = products.ProductID
         join
     employee ON orders.EmployeeID = employee.EmployeeID
-        join
-    orderdetails ON orderdetails.OrderID = orders.OrderID
 where
-    orderdetails.ProductID = (select 
-            ProductID
-        from
-            products
-        where
-            ProductName = 'Tofu')
+    products.ProductName = 'Tofu'
         and orders.OrderDate between date('1997-01-13') and date('1997-01-30');
             
 -- 13
@@ -204,9 +201,9 @@ select
     shippers.CompanyName,
     count(shippers.ShipperID) as number_of_orders
 from
-    orders
+    shippers
         join
-    shippers ON shippers.ShipperID = orders.ShipperID
+    orders ON shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID;
 
 -- 15
