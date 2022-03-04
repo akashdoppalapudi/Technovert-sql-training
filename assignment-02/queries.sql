@@ -225,12 +225,12 @@ select
     shippers.ShipperID,
     count(shippers.ShipperID) as number_of_orders
 from
-    orders
+    shippers
         join
-    shippers ON shippers.ShipperID = orders.ShipperID
+    orders ON shippers.ShipperID = orders.ShipperID
 group by shippers.ShipperID
 order by number_of_orders desc
-limit 1;
+limit 0,1;
 
 -- 17
 /* Which shipper supplied the most number of products between 10th August,1996 and 20th
