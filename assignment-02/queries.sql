@@ -228,7 +228,7 @@ from
     shippers
         join
     orders ON shippers.ShipperID = orders.ShipperID
-group by shippers.ShipperID
+group by shippers.ShipperID	
 order by number_of_orders desc
 limit 0,1;
 
@@ -240,14 +240,14 @@ select
     shippers.CompanyName,
     count(shippers.ShipperID) as number_of_orders
 from
-    orders
+    shippers
         join
-    shippers ON shippers.ShipperID = orders.ShipperID
+    orders ON shippers.ShipperID = orders.ShipperID
 where
     orders.OrderDate between date('1996-08-10') and date('1998-09-20')
 group by shippers.ShipperID
 order by number_of_orders desc
-limit 1;
+limit 0,1;
 
 -- 18
 -- Which employee didn't order any product 4th of April 1997
