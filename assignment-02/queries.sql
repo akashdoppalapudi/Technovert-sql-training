@@ -118,7 +118,7 @@ from
     products ON orderdetails.ProductID = products.ProductID
 group by orderdetails.ProductID
 order by number_of_orders
-limit 5;
+limit 0,5;
 
 -- 10
 -- What is the total price that is to be paid by Laura Callahan for the order placed on 13th of January,1997
