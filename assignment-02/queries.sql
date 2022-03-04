@@ -256,18 +256,13 @@ where
 -- 22
 -- How much amount Exotic Liquids received due to the order placed for its products in the month of January,1997
 select 
-    sum(total_price(orderdetails.Quantity,
-            orderdetails.UnitPrice)) as total_amount
+   round(sum(orderdetails.Quantity * orderdetails.UnitPrice), 2) as total_amount
 from
     orderdetails join products ON orderdetails.ProductID = products.ProductID
         join orders ON orders.OrderID = orderdetails.OrderID
+        join suppliers on products.SupplierID=suppliers.SupplierID
 where
-    products.SupplierID = (select 
-            SupplierID
-        from
-            suppliers
-        where
-            CompanyName = 'Exotic Liquids')
+    suppliers.CompanyName = 'Exotic Liquids'
         and orders.OrderDate between date('1997-01-01') and date('1997-01-31');
         
 -- 23
