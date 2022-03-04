@@ -79,12 +79,12 @@ where
 -- 8
 -- Which product received the most orders. Get the product's ID and Name and number of orders it received.
 select 
-    orderdetails.ProductID,
+    products.ProductID,
     products.ProductName,
     count(orderdetails.ProductID) as number_of_orders
 from
-    orderdetails inner join products ON orderdetails.ProductID = products.ProductID
-group by orderdetails.ProductID
+    products left join orderdetails ON products.ProductID = orderdetails.ProductID
+group by products.ProductID
 order by number_of_orders desc
 limit 0 , 1;
 
