@@ -8,7 +8,7 @@ from
         join
     orders ON employee.EmployeeID = orders.EmployeeID
 where
-    OrderDate between '1996-08-15' and '1997-08-15';
+    OrderDate between date('1996-08-15') and date('1997-08-15');
 
 -- 2
 -- Get the distinct EmployeeIDs who placed orders before 16th October,1996
@@ -19,7 +19,7 @@ from
         join
     orders ON employee.EmployeeID = orders.EmployeeID
 where
-    orders.OrderDate < '1996-08-16';
+    orders.OrderDate < date('1996-08-16');
     
 -- 3
 -- How many products were ordered in total by all employees between 13th of January,1997 and 16th of April,1997.
@@ -29,7 +29,8 @@ from
     orders
         join
     orderdetails ON orders.OrderID = orderdetails.OrderID
-    where orders.OrderDate between date("1997-01-13") and date("1997-04-16");
+where
+    orders.OrderDate between date('1997-01-13') and date('1997-04-16');
 
 -- 4
 /* What is the total quantity of products for which Anne Dodsworth placed orders between 13th of
@@ -41,7 +42,7 @@ from
         left join
     employee ON employee.EmployeeID = orders.EmployeeID
 where
-    OrderDate between '1997-01-13' and '1997-04-16'
+    OrderDate between date('1997-01-13') and date('1997-04-16')
         and employee.FirstName = 'Anne'
         and employee.LastName = 'Dodsworth';
                 
@@ -68,7 +69,7 @@ from
 where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King'
-        and orders.OrderDate between '1996-08-15' and '1997-08-15';
+        and orders.OrderDate between date('1996-08-15') and date('1997-08-15');
         
 -- 7
 /* I want to make a phone call to the employees to wish them on the occasion of Christmas who placed
@@ -85,7 +86,7 @@ from
         left join
     employee ON employee.EmployeeID = orders.EmployeeID
 where
-    orders.OrderDate between '1997-01-13' and '1997-04-16';
+    orders.OrderDate between date('1997-01-13') and date('1997-04-16');
     
 -- 8
 -- Which product received the most orders. Get the product's ID and Name and number of orders it received.
@@ -129,7 +130,7 @@ where
         where
             FirstName = 'Laura'
                 and LastName = 'Callahan')
-        and orders.OrderDate = '1997-01-13';
+        and orders.OrderDate = date('1997-01-13');
     
 -- 11
 /* How many number of unique employees placed orders for Gorgonzola Telino or Gnocchi di nonna Alice or
@@ -146,7 +147,7 @@ where
     products.ProductName in ('Gorgonzola Telino' , 'Gnocchi di nonna Alice',
         'Raclette Courdavault',
         'Camembert Pierrot')
-        and orders.OrderDate between '1997-01-01' and '1997-01-31';
+        and orders.OrderDate between date('1997-01-01') and date('1997-01-31');
         
 -- 12
 -- What is the full name of the employees who ordered Tofu between 13th of January,1997 and 30th of January,1997
@@ -167,7 +168,7 @@ where
             products
         where
             ProductName = 'Tofu')
-        and orders.OrderDate between '1997-01-13' and '1997-01-30';
+        and orders.OrderDate between date('1997-01-13') and date('1997-01-30');
             
 -- 13
 /* What is the age of the employees in days, months and years who placed orders during the month of
@@ -242,7 +243,7 @@ from
         join
     shippers ON shippers.ShipperID = orders.ShipperID
 where
-    orders.OrderDate between '1996-08-10' and '1998-09-20'
+    orders.OrderDate between date('1996-08-10') and date('1998-09-20')
 group by shippers.ShipperID
 order by number_of_orders desc
 limit 1;
@@ -260,7 +261,7 @@ where
         from
             orders
         where
-            OrderDate = '1997-04-04');
+            OrderDate = date('1997-04-04'));
 
 -- 19
 --  How many products where shipped to Steven Buchanan
@@ -326,7 +327,7 @@ where
             suppliers
         where
             CompanyName = 'Exotic Liquids')
-        and orders.OrderDate between '1997-01-01' and '1997-01-31';
+        and orders.OrderDate between date('1997-01-01') and date('1997-01-31');
         
 -- 23
 -- In which days of January, 1997, the supplier Tokyo Traders haven't received any orders
@@ -346,7 +347,7 @@ from
         join
     products on products.ProductID = orderdetails.ProductID
 where
-    orders.OrderDate between '1997-01-01' and '1997-01-31'
+    orders.OrderDate between date('1997-01-01') and date('1997-01-31')
     and products.SupplierID=(select SupplierID from suppliers where CompanyName="Tokyo Traders"));
     
 -- 24
@@ -384,7 +385,7 @@ from
         join
     shippers ON shippers.ShipperID = orders.ShipperID
 where
-    orders.OrderDate between '1997-09-01' and '1997-10-31'
+    orders.OrderDate between date('1997-09-01') and date('1997-10-31')
 group by shippers.ShipperID
 order by number_of_orders asc
 limit 1;
@@ -405,7 +406,7 @@ where
                 join
             products ON products.ProductID = orderdetails.ProductID
         where
-            orders.OrderDate between '1997-08-01' and '1997-08-31');
+            orders.OrderDate between date('1997-08-01') and date('1997-08-31'));
             
 -- 27
 -- What are the products that weren't ordered by each of the employees. List each employee and the products that he didn't order.
@@ -418,12 +419,12 @@ from
         join
     shippers ON orders.ShipperID = shippers.ShipperID
 where
-    (orders.OrderDate between '1996-04-01' and '1996-04-30')
-        or (orders.OrderDate between '1996-05-01' and '1996-05-31')
-        or (orders.OrderDate between '1996-06-01' and '1996-06-30')
-        or (orders.OrderDate between '1997-04-01' and '1997-04-30')
-        or (orders.OrderDate between '1997-05-01' and '1997-05-31')
-        or (orders.OrderDate between '1997-06-01' and '1997-06-30')
+    (orders.OrderDate between date('1996-04-01') and date('1996-04-30'))
+        or (orders.OrderDate between date('1996-05-01') and date('1996-05-31'))
+        or (orders.OrderDate between date('1996-06-01') and date('1996-06-30'))
+        or (orders.OrderDate between date('1997-04-01') and date('1997-04-30'))
+        or (orders.OrderDate between date('1997-05-01') and date('1997-05-31'))
+        or (orders.OrderDate between date('1997-06-01') and date('1997-06-30'))
 group by shippers.ShipperID
 order by number_of_orders desc
 limit 1;
@@ -535,7 +536,7 @@ from
         join
     products on orderdetails.ProductID = products.ProductID
 where
-    orders.OrderDate between '1997-10-8' and '1997-10-14')
+    orders.OrderDate between date('1997-10-8') and date('1997-10-14'))
 select 1 as id, ProductID, ProductName, UnitPrice from product_prices where UnitPrice=(select min(UnitPrice) from product_prices)
 union
 select 2 as id, ProductID, ProductName, UnitPrice from product_prices where UnitPrice=(select max(UnitPrice) from product_prices);
