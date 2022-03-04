@@ -30,7 +30,7 @@ where
 /* What is the total quantity of products for which Anne Dodsworth placed orders between 13th of
 January,1997 and 16th of April,1997 */
 select 
-    sum(orderdetails.Quantity)
+    sum(orderdetails.Quantity) as number_of_products
 from
     orders inner join employee ON employee.EmployeeID = orders.EmployeeID
         join orderdetails ON orders.OrderID = orderdetails.OrderID
@@ -42,7 +42,7 @@ where
 -- 5
 -- How many orders have been placed in total by Robert King
 select 
-    count(*)
+    count(*) as number_of_orders
 from
     orders inner join employee ON employee.EmployeeID = orders.EmployeeID
 where
@@ -52,7 +52,7 @@ where
 -- 6
 -- How many products have been ordered by Robert King between 15th August,1996 and 15th August,1997
 select 
-    sum(orderdetails.Quantity)
+    sum(orderdetails.Quantity) as number_of_products
 from
     orders inner join employee ON employee.EmployeeID = orders.EmployeeID
         join orderdetails ON orders.OrderID = orderdetails.OrderID
@@ -146,7 +146,7 @@ where
 /* What is the age of the employees in days, months and years who placed orders during the month of
 August. Get employeeID and full name as well */
 select distinct
-    (employee.EmployeeID),
+    employee.EmployeeID,
     concat_ws(' ',
             employee.FirstName,
             employee.LastName) as employee_full_name,
