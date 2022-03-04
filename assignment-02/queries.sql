@@ -94,15 +94,17 @@ where
     
 -- 8
 -- Which product received the most orders. Get the product's ID and Name and number of orders it received.
-with product_orders as (
 select 
-    orderdetails.ProductID, products.ProductName, count(orderdetails.ProductID) as number_of_orders
+    orderdetails.ProductID,
+    products.ProductName,
+    count(orderdetails.ProductID) as number_of_orders
 from
     orderdetails
         inner join
-    products on orderdetails.ProductID = products.ProductID group by orderdetails.ProductID) 
-select * from product_orders 
-where number_of_orders=(select max(number_of_orders) from product_orders);
+    products ON orderdetails.ProductID = products.ProductID
+group by orderdetails.ProductID
+order by number_of_orders desc
+limit 0 , 1;
 
 -- 9
 -- Which are the least shipped products. List only the top 5 from your list.
