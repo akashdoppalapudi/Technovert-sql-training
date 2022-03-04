@@ -1,15 +1,14 @@
 -- JOINS
 -- 1
 -- Get the firstname and lastname of the employees who placed orders between 15th August,1996 and 15th August,1997
-select 
+select distinct
     employee.FirstName, employee.LastName
 from
     employee
         join
     orders ON employee.EmployeeID = orders.EmployeeID
 where
-    OrderDate between '1996-08-15' and '1997-08-15'
-group by orders.EmployeeID;
+    OrderDate between '1996-08-15' and '1997-08-15';
 
 -- 2
 -- Get the distinct EmployeeIDs who placed orders before 16th October,1996
