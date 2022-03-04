@@ -63,11 +63,13 @@ where
 -- 6
 -- How many products have been ordered by Robert King between 15th August,1996 and 15th August,1997
 select 
-    count(*)
+    sum(orderdetails.Quantity)
 from
     orders
         inner join
     employee ON employee.EmployeeID = orders.EmployeeID
+        join
+    orderdetails ON orders.OrderID = orderdetails.OrderID
 where
     employee.FirstName = 'Robert'
         and employee.LastName = 'King'

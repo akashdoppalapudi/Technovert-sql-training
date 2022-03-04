@@ -1,2 +1,2 @@
-COUNT(*)
-35
+sum(orderdetails.Quantity)
+2045
