@@ -269,17 +269,14 @@ where
 select 
     sum(orderdetails.Quantity) as number_of_products
 from
-    orders
+    orderdetails
         join
-    orderdetails ON orders.OrderID = orderdetails.OrderID
+    orders ON orders.OrderID = orderdetails.OrderID
+        join
+    employee ON orders.EmployeeID = employee.EmployeeID
 where
-    orders.EmployeeID = (select 
-            EmployeeID
-        from
-            employee
-        where
-            FirstName = 'Steven'
-                and LastName = 'Buchanan');
+    employee.FirstName = 'Steven'
+        and employee.LastName = 'Buchanan';
                 
 -- 20
 --  How many orders where shipped to Michael Suyama by Federal Shipping
