@@ -39,7 +39,7 @@ select
     count(*)
 from
     orders
-        left join
+        inner join
     employee ON employee.EmployeeID = orders.EmployeeID
 where
     OrderDate between date('1997-01-13') and date('1997-04-16')
@@ -52,7 +52,7 @@ select
     count(*)
 from
     orders
-        left join
+        inner join
     employee ON employee.EmployeeID = orders.EmployeeID
 where
     employee.FirstName = 'Robert'
@@ -64,7 +64,7 @@ select
     count(*)
 from
     orders
-        left join
+        inner join
     employee ON employee.EmployeeID = orders.EmployeeID
 where
     employee.FirstName = 'Robert'
@@ -83,7 +83,7 @@ select distinct
     employee.HomePhone
 from
     orders
-        left join
+        inner join
     employee ON employee.EmployeeID = orders.EmployeeID
 where
     orders.OrderDate between date('1997-01-13') and date('1997-04-16');
@@ -95,7 +95,7 @@ select
     orderdetails.ProductID, products.ProductName, count(orderdetails.ProductID) as number_of_orders
 from
     orderdetails
-        left join
+        inner join
     products on orderdetails.ProductID = products.ProductID group by orderdetails.ProductID) 
 select * from product_orders 
 where number_of_orders=(select max(number_of_orders) from product_orders);
@@ -108,7 +108,7 @@ select
     count(orderdetails.ProductID) as number_of_orders
 from
     orderdetails
-        left join
+        inner join
     products ON orderdetails.ProductID = products.ProductID
 group by orderdetails.ProductID
 order by number_of_orders
@@ -139,7 +139,7 @@ select
     count(distinct orders.EmployeeID) as number_of_employees
 from
     orders
-        left join
+        inner join
     orderdetails ON orderdetails.OrderID = orders.OrderID
         inner join
     products ON products.ProductID = orderdetails.ProductID
