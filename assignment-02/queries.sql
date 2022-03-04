@@ -101,7 +101,7 @@ from
 -- 10
 -- What is the total price that is to be paid by Laura Callahan for the order placed on 13th of January,1997
 select 
-    sum((orderdetails.Quantity * orderdetails.UnitPrice)) as total_price
+    round(sum((orderdetails.Quantity * orderdetails.UnitPrice)), 2) as total_price
 from
     orderdetails join orders ON orders.OrderID = orderdetails.OrderID
         join employee ON orders.EmployeeID = employee.EmployeeID
