@@ -36,11 +36,13 @@ where
 /* What is the total quantity of products for which Anne Dodsworth placed orders between 13th of
 January,1997 and 16th of April,1997 */
 select 
-    count(*)
+    sum(orderdetails.Quantity)
 from
     orders
         inner join
     employee ON employee.EmployeeID = orders.EmployeeID
+        join
+    orderdetails ON orders.OrderID = orderdetails.OrderID
 where
     OrderDate between date('1997-01-13') and date('1997-04-16')
         and employee.FirstName = 'Anne'

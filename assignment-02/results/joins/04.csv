@@ -1,2 +1,2 @@
-COUNT(*)
-3
+sum(orderdetails.Quantity)
+189
