@@ -80,7 +80,7 @@ where
 orders between 13th of January,1997 and 16th of April,1997. I want the EmployeeID, Employee Full Name,
 HomePhone Number. */
 select distinct
-    (employee.EmployeeID),
+    employee.EmployeeID,
     concat_ws(' ',
             employee.FirstName,
             employee.LastName) as EmployeeFullName,
