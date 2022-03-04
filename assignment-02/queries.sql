@@ -212,9 +212,9 @@ select
     shippers.CompanyName,
     sum(orderdetails.Quantity) as number_of_products
 from
-    orders
+    shippers
         join
-    shippers ON orders.ShipperID = shippers.ShipperID
+    orders ON orders.ShipperID = shippers.ShipperID
         join
     orderdetails ON orderdetails.OrderID = orders.OrderID
 group by shippers.ShipperID;
