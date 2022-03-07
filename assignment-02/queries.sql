@@ -366,9 +366,9 @@ limit 0,1;
 -- 30
 -- What is the average number of days taken by all shippers to ship the product after the order has been placed by the employees
 select 
-    avg(timestampdiff(day,
+    round(avg(timestampdiff(hour,
         OrderDate,
-        ShippedDate)) as avg_days_to_delever
+        ShippedDate)  / 24), 2) as avg_days_to_delever
 from
     orders;
     
