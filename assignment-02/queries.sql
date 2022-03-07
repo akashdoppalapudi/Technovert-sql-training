@@ -272,17 +272,18 @@ select 1
 union all
 select days+1
 from cte
-where days<31
+where days<day(last_day(date('1997-01-01')))
 )
 select days as days_without_orders from cte where days not in (select 
     day(orders.OrderDate)
 from
     orders join orderdetails on orderdetails.OrderID = orders.OrderID
         join products on products.ProductID = orderdetails.ProductID
+        join suppliers on products.SupplierID=suppliers.SupplierID
 where
-    orders.OrderDate between date('1997-01-01') and date('1997-01-31')
-    and products.SupplierID=(select SupplierID from suppliers where CompanyName="Tokyo Traders"));
-    
+    month(orders.OrderDate)=01 and year(orders.OrderDate)=1997
+    and suppliers.CompanyName="Tokyo Traders");
+
 -- 24
 -- Which of the employees did not place any order for the products supplied by Ma Maison in the month of May
 select 
