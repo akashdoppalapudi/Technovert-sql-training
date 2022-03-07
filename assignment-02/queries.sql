@@ -353,15 +353,15 @@ limit 1;
 
 -- 29
 -- Which country supplied the maximum products for all the employees in the year 1997
-with country_products as (
 select 
     suppliers.Country, count(suppliers.Country) as number_of_products
 from
     orders join  orderdetails on orders.OrderID = orderdetails.OrderID
         join products on products.ProductID = orderdetails.ProductID
         join suppliers on suppliers.SupplierID = products.SupplierID
-    where year(OrderDate)=1997 group by suppliers.Country)
-    select Country from country_products where number_of_products=(select max(number_of_products) from country_products);
+    where year(OrderDate)=1997 group by suppliers.Country
+order by number_of_products desc
+limit 0,1;
     
 -- 30
 -- What is the average number of days taken by all shippers to ship the product after the order has been placed by the employees
