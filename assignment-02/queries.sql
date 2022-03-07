@@ -374,19 +374,12 @@ from
     
 -- 31
 -- Who is the quickest shipper of all.
-with shipper_time as (
 select 
-	shippers.CompanyName,
-    timestampdiff(day,
-        OrderDate,
-        ShippedDate) as days_to_deliver
+	shippers.CompanyName
 from
-    orders join shippers on orders.ShipperID=shippers.ShipperID)
-select CompanyName as number_of_least_time 
-from shipper_time where days_to_deliver=(
-select min(days_to_deliver) from shipper_time) 
-group by CompanyName order by Count(companyName) 
-desc 
+    orders join shippers on orders.ShipperID=shippers.ShipperID 
+group by CompanyName order by timestampdiff(second,OrderDate,ShippedDate)
+asc 
 limit 1;
 
 -- 32
