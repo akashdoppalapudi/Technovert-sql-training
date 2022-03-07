@@ -85,6 +85,17 @@ CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`match` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
+-- -----------------------------------------------------
+-- Table `technovert-cup-cricket-tournament`.`batterStatus`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`batterStatus` ;
+
+CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
+	`StatusID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    `Status` varchar(30) NOT NULL,
+    PRIMARY KEY (`StatusID`)
+)ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb3;
 
 -- -----------------------------------------------------
 -- Table `technovert-cup-cricket-tournament`.`score`
@@ -92,14 +103,17 @@ DEFAULT CHARACTER SET = utf8mb3;
 DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`score` ;
 
 CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
+  `ScoreID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `MatchID` INT UNSIGNED NOT NULL,
   `PlayerID` INT UNSIGNED NOT NULL,
   `Score` INT UNSIGNED NOT NULL,
-  `Status` ENUM('Not Out', 'Run Out', 'Caught', 'Bowled', 'Stump Out') NOT NULL DEFAULT 'Not Out',
+  `StatusID` INT UNSIGNED NOT NULL,
   `OutBy` INT UNSIGNED NOT NULL,
   `Bowler` INT UNSIGNED NOT NULL,
+  PRIMARY KEY (`ScoreID`),
   INDEX `MatchID` (`MatchID` ASC) VISIBLE,
   INDEX `PlayerID` (`PlayerID` ASC) VISIBLE,
+  INDEX `StatusID` (`StatusID` ASC) VISIBLE,
   INDEX `OutBy` (`OutBy` ASC) VISIBLE,
   INDEX `Bowler` (`Bowler` ASC) VISIBLE,
   CONSTRAINT `fk_match_score_MatchID`
@@ -108,6 +122,9 @@ CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
   CONSTRAINT `fk_player_score_PlayerID`
     FOREIGN KEY (`PlayerID`)
     REFERENCES `technovert-cup-cricket-tournament`.`player` (`PlayerID`),
+  CONSTRAINT `fk_batterStatus_Score_StatusID`
+	FOREIGN KEY (`StatusID`)
+    REFERENCES `technovert-cup-cricket-tournament`.`batterStatus` (`StatusID`),
   CONSTRAINT `fk_player_score_OutBy`
     FOREIGN KEY (`OutBy`)
     REFERENCES `technovert-cup-cricket-tournament`.`player` (`PlayerID`),
@@ -117,6 +134,9 @@ CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
+
+INSERT INTO `technovert-cup-cricket-tournament`.`score` (`Status`) VALUES 
+('Not Out'), ('Run Out'), ('Caught'), ('Bowled'), ('Stump Out');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
