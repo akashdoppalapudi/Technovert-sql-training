@@ -314,7 +314,7 @@ select
 from
     orders join shippers ON shippers.ShipperID = orders.ShipperID
 where
-    orders.OrderDate between date('1997-09-01') and date('1997-10-31')
+    year(orders.OrderDate)=1997 and (month(orders.OrderDate)=09 or month(orders.OrderDate)=09)
 group by shippers.ShipperID
 order by number_of_orders asc
 limit 1;
