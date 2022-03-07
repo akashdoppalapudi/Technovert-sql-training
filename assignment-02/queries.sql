@@ -263,7 +263,7 @@ from
         join suppliers on products.SupplierID=suppliers.SupplierID
 where
     suppliers.CompanyName = 'Exotic Liquids'
-        and orders.OrderDate between date('1997-01-01') and date('1997-01-31');
+        and month(orders.OrderDate)=01 and year(orders.OrderDate)=1997;
         
 -- 23
 -- In which days of January, 1997, the supplier Tokyo Traders haven't received any orders
@@ -296,14 +296,10 @@ where
         from
             orders join orderdetails ON orders.OrderID = orderdetails.OrderID
                 join products ON products.ProductID = orderdetails.ProductID
+                join suppliers on suppliers.SupplierID=products.SupplierID
         where
             month(orders.OrderDate) = 05
-                and products.SupplierID = (select 
-                    SupplierID
-                from
-                    suppliers
-                where
-                    CompanyName = 'Ma Maison'));
+                and suppliers.CompanyName="Ma Mason");
                     
 -- 25
 -- Which shipper shipped the least number of products for the month of September and October,1997 combined
@@ -336,6 +332,21 @@ where
             
 -- 27
 -- What are the products that weren't ordered by each of the employees. List each employee and the products that he didn't order.
+select 
+    emp.EmployeeID,
+    concat_ws(' ', emp.FirstName, emp.LastName) as EmployeeName,
+    prd.ProductID,
+    prd.ProductName
+from
+    employee emp cross join products prd
+having (select 
+        o.OrderID
+    from
+        orderdetails od join orders o ON o.OrderID = od.OrderID
+    where
+        od.ProductID = prd.ProductID
+            and o.EmployeeID = emp.EmployeeID
+    limit 0 , 1) is null;
 
 -- 28
 -- Who is busiest shipper in the months of April, May and June during the year 1996 and 1997
