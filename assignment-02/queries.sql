@@ -407,24 +407,37 @@ from
 /*  Which orders took the least number and maximum number of shipping days? Get the orderid, employees
 full name, number of products, number of days taken to ship the product and shipper company name. Use
 1 and 2 in the final result set to distinguish the 2 orders. */
-with order_products as (
-select
+(select
 	orders.OrderID,
-    concat_ws(' ',employee.FirstName, employee.LastName) as EmployeeName,
-    count(orderdetails.OrderID) as number_of_products,
-    timestampdiff(day,
-        OrderDate,
-        ShippedDate) as days_to_deliver,
-	shippers.CompanyName
+    concat_ws(" ", employee.FirstName, employee.LastName) as EmployeeName,
+    sum(orderdetails.Quantity) as number_of_products,
+    round(timestampdiff(hour, orders.OrderDate, orders.ShippedDate) / 24, 2) as days_to_deliver,
+    shippers.CompanyName
 from
     orders join employee on orders.EmployeeID = employee.EmployeeID
         join orderdetails on orderdetails.OrderID = orders.OrderID
         join shippers on shippers.ShipperID = orders.ShipperID
-    group by orders.OrderID)
-select * from order_products where days_to_deliver=(select min(days_to_deliver) from order_products)
+group by orders.OrderID
+having days_to_deliver is not null
+order by days_to_deliver
+asc
+limit 0, 1)
 union
-select * from order_products where days_to_deliver=(select max(days_to_deliver) from order_products);
-
+(select
+	orders.OrderID,
+    concat_ws(" ", employee.FirstName, employee.LastName) as EmployeeName,
+    sum(orderdetails.Quantity) as number_of_products,
+    round(timestampdiff(hour, orders.OrderDate, orders.ShippedDate) / 24, 2) as days_to_deliver,
+    shippers.CompanyName
+from
+    orders join employee on orders.EmployeeID = employee.EmployeeID
+        join orderdetails on orderdetails.OrderID = orders.OrderID
+        join shippers on shippers.ShipperID = orders.ShipperID
+group by orders.OrderID
+having days_to_deliver is not null
+order by days_to_deliver
+desc
+limit 0,1);
 -- 2
 /* Which is cheapest and the costliest of products purchased in the second week of October, 1997. Get the
 product ID, product Name and unit price. Use 1 and 2 in the final result set to distinguish the 2 products. */
