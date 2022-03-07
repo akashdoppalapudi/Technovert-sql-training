@@ -441,8 +441,7 @@ limit 0,1);
 -- 2
 /* Which is cheapest and the costliest of products purchased in the second week of October, 1997. Get the
 product ID, product Name and unit price. Use 1 and 2 in the final result set to distinguish the 2 products. */
-with product_prices as (
-select distinct
+(select distinct
     orderdetails.ProductID,
     products.ProductName,
     products.UnitPrice
@@ -450,10 +449,23 @@ from
     orders join orderdetails on orders.OrderID = orderdetails.OrderID
         join products on orderdetails.ProductID = products.ProductID
 where
-    orders.OrderDate between date('1997-10-8') and date('1997-10-14'))
-select 1 as id, ProductID, ProductName, UnitPrice from product_prices where UnitPrice=(select min(UnitPrice) from product_prices)
+    orders.OrderDate between date('1997-10-8') and date('1997-10-14')
+order by products.UnitPrice
+asc
+limit 0,1)
 union
-select 2 as id, ProductID, ProductName, UnitPrice from product_prices where UnitPrice=(select max(UnitPrice) from product_prices);
+(select distinct
+    orderdetails.ProductID,
+    products.ProductName,
+    products.UnitPrice
+from
+    orders join orderdetails on orders.OrderID = orderdetails.OrderID
+        join products on orderdetails.ProductID = products.ProductID
+where
+    orders.OrderDate between date('1997-10-8') and date('1997-10-14')
+order by products.UnitPrice
+desc
+limit 0,1);
 
 -- CASE
 -- 1
