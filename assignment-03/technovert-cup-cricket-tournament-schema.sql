@@ -88,14 +88,17 @@ DEFAULT CHARACTER SET = utf8mb3;
 -- -----------------------------------------------------
 -- Table `technovert-cup-cricket-tournament`.`batterStatus`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`batterStatus` ;
+DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`batterstatus` ;
 
-CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
+CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`batterstatus` (
 	`StatusID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
     `Status` varchar(30) NOT NULL,
     PRIMARY KEY (`StatusID`)
 )ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
+
+INSERT INTO `technovert-cup-cricket-tournament`.`batterstatus` (`Status`) VALUES 
+('Not Out'), ('Run Out'), ('Caught'), ('Bowled'), ('Stump Out');
 
 -- -----------------------------------------------------
 -- Table `technovert-cup-cricket-tournament`.`score`
@@ -108,8 +111,8 @@ CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
   `PlayerID` INT UNSIGNED NOT NULL,
   `Score` INT UNSIGNED NOT NULL,
   `StatusID` INT UNSIGNED NOT NULL,
-  `OutBy` INT UNSIGNED NOT NULL,
-  `Bowler` INT UNSIGNED NOT NULL,
+  `OutBy` INT UNSIGNED NULL,
+  `Bowler` INT UNSIGNED NULL,
   PRIMARY KEY (`ScoreID`),
   INDEX `MatchID` (`MatchID` ASC) VISIBLE,
   INDEX `PlayerID` (`PlayerID` ASC) VISIBLE,
@@ -134,9 +137,6 @@ CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb3;
 
-
-INSERT INTO `technovert-cup-cricket-tournament`.`score` (`Status`) VALUES 
-('Not Out'), ('Run Out'), ('Caught'), ('Bowled'), ('Stump Out');
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
