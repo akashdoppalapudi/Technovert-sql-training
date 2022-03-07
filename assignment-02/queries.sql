@@ -380,26 +380,27 @@ from
     orders join shippers on orders.ShipperID=shippers.ShipperID 
 group by CompanyName order by timestampdiff(second,OrderDate,ShippedDate)
 asc 
-limit 1;
+limit 0, 1;
 
 -- 32
 /* Which order took the least number of shipping days. Get the orderid, employees full name, number of
 products, number of days took to ship and shipper company name. */
-with order_products as (
 select
 	orders.OrderID,
     concat_ws(' ',employee.FirstName, employee.LastName) as EmployeeName,
     count(orderdetails.OrderID) as number_of_products,
-    timestampdiff(day,
+    round(timestampdiff(hour,
         OrderDate,
-        ShippedDate) as days_to_deliver,
+        ShippedDate) / 24, 2) as days_to_deliver,
 	shippers.CompanyName
 from
     orders join employee on orders.EmployeeID = employee.EmployeeID
         join orderdetails on orderdetails.OrderID = orders.OrderID
         join shippers on shippers.ShipperID = orders.ShipperID
-    group by orders.OrderID)
-select * from order_products where days_to_deliver=(select min(days_to_deliver) from order_products);
+    order by days_to_deliver
+    asc
+    limit 0, 1;
+
 
 -- UNIONS
 -- 1
