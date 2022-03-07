@@ -26,14 +26,14 @@ USE `technovert-cup-cricket-tournament` ;
 DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`player` ;
 
 CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`player` (
-  `PlayerID` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `PlayerID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `FirstName` VARCHAR(50) NOT NULL,
   `LastName` VARCHAR(50) NOT NULL,
-  `BirthDate` DATE NOT NULL,
-  `Position` ENUM('Batter', 'Bowler', 'Keeper') NOT NULL,
-  `TeamID` TINYINT UNSIGNED NOT NULL,
+  `DateOfBirth` DATE NOT NULL,
+  `Role` ENUM('Batter', 'Bowler', 'Keeper') NOT NULL,
+  `TeamID` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`PlayerID`),
-  INDEX `fk_player_team` (`TeamID` ASC) VISIBLE,
+  INDEX `fk_team_player_PlayerID` (`TeamID` ASC) VISIBLE,
   CONSTRAINT `fk_player_team`
     FOREIGN KEY (`TeamID`)
     REFERENCES `technovert-cup-cricket-tournament`.`team` (`TeamID`))
@@ -47,12 +47,12 @@ DEFAULT CHARACTER SET = utf8mb3;
 DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`team` ;
 
 CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`team` (
-  `TeamID` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `TeamID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `TeamName` VARCHAR(50) NOT NULL,
-  `CaptainID` TINYINT UNSIGNED NOT NULL,
+  `CaptainID` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`TeamID`),
   UNIQUE INDEX `CaptainID_UNIQUE` (`CaptainID` ASC) VISIBLE,
-  CONSTRAINT `team_ibfk_1`
+  CONSTRAINT `fk_player_team_CaptainID`
     FOREIGN KEY (`CaptainID`)
     REFERENCES `technovert-cup-cricket-tournament`.`player` (`PlayerID`))
 ENGINE = InnoDB
@@ -65,19 +65,19 @@ DEFAULT CHARACTER SET = utf8mb3;
 DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`match` ;
 
 CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`match` (
-  `MatchID` TINYINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `MatchID` INT UNSIGNED NOT NULL AUTO_INCREMENT,
   `Date` DATE NOT NULL,
-  `Team1ID` TINYINT UNSIGNED NOT NULL,
-  `Team2ID` TINYINT UNSIGNED NOT NULL,
+  `Team1ID` INT UNSIGNED NOT NULL,
+  `Team2ID` INT UNSIGNED NOT NULL,
   PRIMARY KEY (`MatchID`),
-  INDEX `fk_match_team1_idx` (`Team1ID` ASC) VISIBLE,
-  INDEX `fk_match_team2_idx` (`Team2ID` ASC) VISIBLE,
-  CONSTRAINT `fk_match_team1`
+  INDEX `fk_team_match_Team1_idx` (`Team1ID` ASC) VISIBLE,
+  INDEX `fk_team_match_Team2_idx` (`Team2ID` ASC) VISIBLE,
+  CONSTRAINT `fk_team_match_Team1`
     FOREIGN KEY (`Team1ID`)
     REFERENCES `technovert-cup-cricket-tournament`.`team` (`TeamID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_match_team2`
+  CONSTRAINT `fk_team_match_Team2`
     FOREIGN KEY (`Team2ID`)
     REFERENCES `technovert-cup-cricket-tournament`.`team` (`TeamID`)
     ON DELETE NO ACTION
@@ -92,26 +92,26 @@ DEFAULT CHARACTER SET = utf8mb3;
 DROP TABLE IF EXISTS `technovert-cup-cricket-tournament`.`score` ;
 
 CREATE TABLE IF NOT EXISTS `technovert-cup-cricket-tournament`.`score` (
-  `MatchID` TINYINT UNSIGNED NOT NULL,
-  `PlayerID` TINYINT UNSIGNED NOT NULL,
+  `MatchID` INT UNSIGNED NOT NULL,
+  `PlayerID` INT UNSIGNED NOT NULL,
   `Score` INT UNSIGNED NOT NULL,
   `Status` ENUM('Not Out', 'Run Out', 'Caught', 'Bowled', 'Stump Out') NOT NULL DEFAULT 'Not Out',
-  `OutBy` TINYINT UNSIGNED NOT NULL,
-  `Bowler` TINYINT UNSIGNED NOT NULL,
+  `OutBy` INT UNSIGNED NOT NULL,
+  `Bowler` INT UNSIGNED NOT NULL,
   INDEX `MatchID` (`MatchID` ASC) VISIBLE,
   INDEX `PlayerID` (`PlayerID` ASC) VISIBLE,
   INDEX `OutBy` (`OutBy` ASC) VISIBLE,
   INDEX `Bowler` (`Bowler` ASC) VISIBLE,
-  CONSTRAINT `score_ibfk_1`
+  CONSTRAINT `fk_match_score_MatchID`
     FOREIGN KEY (`MatchID`)
     REFERENCES `technovert-cup-cricket-tournament`.`match` (`MatchID`),
-  CONSTRAINT `score_ibfk_2`
+  CONSTRAINT `fk_player_score_PlayerID`
     FOREIGN KEY (`PlayerID`)
     REFERENCES `technovert-cup-cricket-tournament`.`player` (`PlayerID`),
-  CONSTRAINT `score_ibfk_3`
+  CONSTRAINT `fk_player_score_OutBy`
     FOREIGN KEY (`OutBy`)
     REFERENCES `technovert-cup-cricket-tournament`.`player` (`PlayerID`),
-  CONSTRAINT `score_ibfk_4`
+  CONSTRAINT `fk_player_score_Bowler`
     FOREIGN KEY (`Bowler`)
     REFERENCES `technovert-cup-cricket-tournament`.`player` (`PlayerID`))
 ENGINE = InnoDB
