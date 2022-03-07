@@ -328,7 +328,7 @@ where
             orders join orderdetails ON orders.OrderID = orderdetails.OrderID
                 join products ON products.ProductID = orderdetails.ProductID
         where
-            orders.OrderDate between date('1997-08-01') and date('1997-08-31'));
+            month(orders.OrderDate)=08 and year(orders.OrderDate)=1997);
             
 -- 27
 -- What are the products that weren't ordered by each of the employees. List each employee and the products that he didn't order.
@@ -488,7 +488,7 @@ select distinct
     case
         when ShipperID = 1 then 'Shipping Federal'
         when ShipperID = 2 then 'Express Speedy'
-        else 'United Package'
+        when ShipperID = 3 then 'United Package'
     end as shipper_name
 from
     orders
